@@ -82,13 +82,16 @@ def dashboard():
 
         <h1>🚀 System Monitoring Dashboard</h1>
 
-        <!-- 🔥 DROPDOWN -->
+        <!-- 🚨 ALERT BOX -->
+        <div id="alertBox" style="color:red; font-weight:bold; margin:10px;"></div>
+
+        <!-- 🔽 DROPDOWN -->
         <select id="systemSelect" style="padding:10px; margin:10px;"></select>
 
-        <!-- 🔥 MULTI SYSTEM DISPLAY -->
+        <!-- 🖥 MULTI SYSTEM DISPLAY -->
         <div id="systems"></div>
 
-        <!-- 🔹 CARDS -->
+        <!-- 📊 CARDS -->
         <div class="cards">
             <div class="card">
                 <h3>CPU</h3>
@@ -104,7 +107,7 @@ def dashboard():
             </div>
         </div>
 
-        <!-- 🔹 GRAPHS -->
+        <!-- 📈 GRAPHS -->
         <canvas id="cpuChart"></canvas>
         <canvas id="memoryChart"></canvas>
         <canvas id="diskChart"></canvas>
@@ -184,6 +187,15 @@ def dashboard():
                 diskChart.update();
 
                 const last = result[result.length - 1];
+
+                // 🚨 ALERT LOGIC
+                if (last.cpu > 80) {
+                    document.getElementById("alertBox").innerText =
+                        "⚠️ High CPU usage on " + selectedNode;
+                } else {
+                    document.getElementById("alertBox").innerText = "";
+                }
+
                 document.getElementById('cpuValue').innerText = last.cpu + "%";
                 document.getElementById('memoryValue').innerText = last.memory + "%";
                 document.getElementById('diskValue').innerText = last.disk + "%";
